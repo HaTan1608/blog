@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 
 const emailMsgSchema = new mongoose.Schema(
   {
@@ -35,4 +35,4 @@ const emailMsgSchema = new mongoose.Schema(
 
 const EmailMsg = mongoose.model("EmailMsg", emailMsgSchema);
 
-module.exports = EmailMsg;
+export default EmailMsg;

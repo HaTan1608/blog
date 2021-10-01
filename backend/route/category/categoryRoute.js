@@ -1,17 +1,74 @@
-const express = require("express");
-const {
-  createCategoryCtrl,
-  fetchCategoriesCtrl,
-  fetchCategoryCtrl,
-  updateCategoryCtrl,
-  deleteCateoryCtrl,
-} = require("../../controllers/category/categoryCtrl");
-const authMiddleware = require("../../middlewares/auth/authMiddleware");
-const categoryRoute = express.Router();
+import express from "express";
+import Category from '../../model/category/Category.js';
 
-categoryRoute.post("/", authMiddleware, createCategoryCtrl);
-categoryRoute.get("/", authMiddleware, fetchCategoriesCtrl);
-categoryRoute.get("/:id", authMiddleware, fetchCategoryCtrl);
-categoryRoute.put("/:id", authMiddleware, updateCategoryCtrl);
-categoryRoute.delete("/:id", authMiddleware, deleteCateoryCtrl);
-module.exports = categoryRoute;
+import expressAsyncHandler from "express-async-handler";
+import {authMiddleware} from "../../middlewares/auth/authMiddleware.js";
+
+
+const categoryRoute = express.Router();
+categoryRoute.post(
+  "/",
+  authMiddleware, 
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const category = await Category.create({
+        user: req.user._id,
+        title: req.body.title,
+      });
+      res.json(category);
+    } catch (error) {
+      res.json(error);
+    }
+  }));
+categoryRoute.get("/", authMiddleware,
+expressAsyncHandler(async (req, res) => {
+  try {
+    const categories = await Category.find({})
+      .populate("user")
+      .sort("-createdAt");
+    res.json(categories);
+  } catch (error) {
+    res.json(error);
+  }
+}));
+categoryRoute.get("/:id", authMiddleware,
+expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findById(id)
+      .populate("user")
+      .sort("-createdAt");
+    res.json(category);
+  } catch (error) {
+    res.json(error);
+  }
+}));
+categoryRoute.put("/:id", authMiddleware, expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findByIdAndUpdate(
+      id,
+      {
+        title: req?.body?.title,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.json(category);
+  } catch (error) {
+    res.json(error);
+  }
+}));
+categoryRoute.delete("/:id", authMiddleware, expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findByIdAndDelete(id);
+
+    res.json(category);
+  } catch (error) {
+    res.json(error);
+  }
+}));
+export default categoryRoute;
