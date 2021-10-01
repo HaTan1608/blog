@@ -1,6 +1,5 @@
 {
   "name": "blog",
-
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -37,7 +36,7 @@
   },
   "engines": {
     "node": "12.13.0",
-    "npm":"6.9.0"
+    "npm": "6.9.0"
   },
   "bugs": {
     "url": "https://github.com/HaTan1608/blog/issues"
