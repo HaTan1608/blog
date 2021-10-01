@@ -18,14 +18,13 @@ const app = express();
 //DB
 dbConnect();
 
-app.get("/", (req, res) => {
-  res.json({ msg: "API for blog Application..." });
-});
 //Middleware
 app.use(express.json());
 //cors
 app.use(cors());
 //Users route
+app.use(express.static(path.join(__dirname,'/frontend/build')));
+app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'/frontend/build/index.html')));
 app.use("/api/users", userRoutes);
 //Post route
 app.use("/api/posts", postRoute);
