@@ -12,7 +12,7 @@ export const cloudinaryUploadImg = async fileToUpload => {
       resource_type: "auto",
     });
     return {
-      url: data?.secure_url,
+      url: data.secure_url,
     };
   } catch (error) {
     return error;
