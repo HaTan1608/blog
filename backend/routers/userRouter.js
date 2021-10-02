@@ -69,6 +69,8 @@ expressAsyncHandler(async (req, res) => {
                 });
                 return;
             }
+        }else{
+            res.status(402).send({ message: 'Bo tay' });
         }
         res.status(401).send({ message: 'Invalid email or password' });
     }
