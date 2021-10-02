@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import baseUrl from "../../../utils/baseUrl";
 
 //action for redirect
 const resetAcc = createAction("account/verify-reset");
@@ -20,7 +19,7 @@ export const accVerificationSendTokenAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/users/generate-verify-email-token`,
+        `/api/users/generate-verify-email-token`,
         {},
         config
       );
@@ -50,7 +49,7 @@ export const verifyAccountAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/verify-account`,
+        `/api/users/verify-account`,
         { token },
         config
       );

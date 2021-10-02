@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import baseUrl from "../../../utils/baseUrl";
 
 //custion action for redirect
 
@@ -21,7 +20,7 @@ export const sendMailAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/email`,
+        `/api/email`,
         {
           to: email?.recipientEmail,
           subject: email?.subject,

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import baseUrl from "../../../utils/baseUrl";
 //Create Post action
 
 //action to redirect
@@ -30,7 +29,7 @@ export const createpostAction = createAsyncThunk(
       formData.append("image", post?.image);
 
       const { data } = await axios.post(
-        `${baseUrl}/api/posts`,
+        `/api/posts`,
         formData,
         config
       );
@@ -60,7 +59,7 @@ export const updatePostAction = createAsyncThunk(
     try {
       //http call
       const { data } = await axios.put(
-        `${baseUrl}/api/posts/${post?.id}`,
+        `/api/posts/${post?.id}`,
         post,
         config
       );
@@ -89,7 +88,7 @@ export const deletePostAction = createAsyncThunk(
     try {
       //http call
       const { data } = await axios.delete(
-        `${baseUrl}/api/posts/${postId}`,
+        `/api/posts/${postId}`,
         config
       );
       //dispatch
@@ -108,7 +107,7 @@ export const fetchPostsAction = createAsyncThunk(
   async (category, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(
-        `${baseUrl}/api/posts?category=${category}`
+        `/api/posts?category=${category}`
       );
       return data;
     } catch (error) {
@@ -122,7 +121,7 @@ export const fetchPostDetailsAction = createAsyncThunk(
   "post/detail",
   async (id, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`${baseUrl}/api/posts/${id}`);
+      const { data } = await axios.get(`/api/posts/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -145,7 +144,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/posts/likes`,
+        `/api/posts/likes`,
         { postId },
         config
       );
@@ -172,7 +171,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/posts/dislikes`,
+        `/api/posts/dislikes`,
         { postId },
         config
       );

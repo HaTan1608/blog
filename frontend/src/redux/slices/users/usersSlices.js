@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import baseUrl from "../../../utils/baseUrl";
 
 //Redirect action
 
@@ -19,7 +18,7 @@ export const registerUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/users/register`,
+        `/api/users/register`,
         user,
         config
       );
@@ -45,7 +44,7 @@ export const loginUserAction = createAsyncThunk(
     try {
       //make http call
       const { data } = await axios.post(
-        `${baseUrl}/api/users/login`,
+        `/api/users/login`,
         userData,
         config
       );
@@ -76,7 +75,7 @@ export const userProfileAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.get(
-        `${baseUrl}/api/users/profile/${id}`,
+        `/api/users/profile/${id}`,
         config
       );
       return data;
@@ -104,7 +103,7 @@ export const followUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/follow`,
+        `/api/users/follow`,
         { followId: userToFollowId },
         config
       );
@@ -133,7 +132,7 @@ export const unfollowUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/unfollow`,
+        `/api/users/unfollow`,
         { unFollowId },
         config
       );
@@ -162,7 +161,7 @@ export const updateUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users`,
+        `/api/users`,
         {
           lastName: userData?.lastName,
           firstName: userData?.firstName,
@@ -198,7 +197,7 @@ export const updatePasswordAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/password`,
+        `/api/users/password`,
         {
           password,
         },
@@ -221,7 +220,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
   "user/detail",
   async (id, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`${baseUrl}/api/users/${id}`);
+      const { data } = await axios.get(`/api/users/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -243,7 +242,7 @@ export const fetchUsersAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${baseUrl}/api/users`, config);
+      const { data } = await axios.get(`/api/users`, config);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -266,7 +265,7 @@ export const blockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/block-user/${id}`,
+        `/api/users/block-user/${id}`,
         {},
         config
       );
@@ -292,7 +291,7 @@ export const unBlockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/unblock-user/${id}`,
+        `/api/users/unblock-user/${id}`,
         {},
         config
       );
@@ -338,7 +337,7 @@ export const uploadProfilePhototAction = createAsyncThunk(
       formData.append("image", userImg?.image);
 
       const { data } = await axios.put(
-        `${baseUrl}/api/users/profilephoto-upload`,
+        `/api/users/profilephoto-upload`,
         formData,
         config
       );
@@ -362,7 +361,7 @@ export const passwordResetTokenAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/users/forget-password-token`,
+        `/api/users/forget-password-token`,
         { email },
         config
       );
@@ -388,7 +387,7 @@ export const passwordResetAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${baseUrl}/api/users/reset-password`,
+        `/api/users/reset-password`,
         { password: user?.password, token: user?.token },
         config
       );
