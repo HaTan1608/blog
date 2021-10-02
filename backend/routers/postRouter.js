@@ -31,8 +31,8 @@ postRouter.post(
     //Prevet user f his account is a starter account
   
     if (
-      req?.user?.accountType === "Starter Account" &&
-      req?.user?.postCount >= 2
+      req.user.accountType === "Starter Account" &&
+      req.user.postCount >= 2
     ) {
       throw new Error(
         "Starter account can only create two posts. Get more followers."
@@ -47,7 +47,7 @@ postRouter.post(
       const post = await Post.create({
         ...req.body,
         user: _id,
-        image: imgUploaded?.url,
+        image: imgUploaded.url,
       });
       console.log(req.user);
       //update the user post count
@@ -82,7 +82,7 @@ expressAsyncHandler(async (req, res) => {
     const isLiked = post.isLiked;
     //4.Chech if this user has dislikes this post
     const alreadyDisliked = post.disLikes.find(
-      userId => userId.toString() === loginUserId?.toString()
+      userId => userId.toString() === loginUserId.toString()
     );
     //5.remove the user from dislikes array if exists
     if (alreadyDisliked) {
@@ -133,8 +133,8 @@ expressAsyncHandler(async (req, res) => {
     //3.Check if this user has already disLikes
     const isDisLiked = post.isDisLiked;
     //4. Check if already like this post
-    const alreadyLiked = post.likes?.find(
-      userId => userId.toString() === loginUserId?.toString()
+    const alreadyLiked = post.likes.find(
+      userId => userId.toString() === loginUserId.toString()
     );
     //Remove this user from likes array if it exists
     if (alreadyLiked) {
@@ -235,7 +235,7 @@ expressAsyncHandler(async (req, res) => {
         id,
         {
           ...req.body,
-          user: req.user?._id,
+          user: req.user._id,
         },
         {
           new: true,
