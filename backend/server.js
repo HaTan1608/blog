@@ -9,11 +9,13 @@ import path from 'path';
 import uploadRouter from './routers/uploadRouter.js';
 import dotenv from 'dotenv';
 import { errorHandler, notFound } from "./utils.js";
+import cors from 'cors'
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
 var url = "mongodb+srv://amazona:8365598a@cluster0.fdtaq.mongodb.net/blogapp?authSource=admin&replicaSet=atlas-55bbid-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
 mongoose.connect(url, function (err) {
   if (err) throw err;
