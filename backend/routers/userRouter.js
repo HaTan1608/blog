@@ -33,6 +33,8 @@ expressAsyncHandler(async (req, res) => {
 
   userRouter.post("/login",
     expressAsyncHandler(async (req, res) => {
+        
+        console.log('vo day r 2')
     const email = req.body.email;
     const password = req.body.password;
     //check if user exists
@@ -46,6 +48,7 @@ expressAsyncHandler(async (req, res) => {
             throw new Error("Access Denied You have been blocked");
         }
         if(await userFound.isPasswordMatched(password)){
+            console.log('vo day r 2')
             res.json({
                 _id: userFound._id,
                 firstName: userFound.firstName,

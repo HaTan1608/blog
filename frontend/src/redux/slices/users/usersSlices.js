@@ -36,17 +36,12 @@ export const registerUserAction = createAsyncThunk(
 export const loginUserAction = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue, getState, dispatch }) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+   
     try {
       //make http call
       const { data } = await axios.post(
         `/api/users/login`,
-        userData,
-        config
+        userData
       );
       //save user into local storage
       localStorage.setItem("userInfo", JSON.stringify(data));
