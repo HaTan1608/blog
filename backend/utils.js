@@ -7,7 +7,7 @@ export const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: "20d" });
   };
 
-  
+
 export const isAuth = (req, res, next) => {
     const authorization = req.headers.authorization;
     if (authorization) {
@@ -72,7 +72,7 @@ export  const notFound = (req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);
     res.json({
-      message: err?.message,
+      message: err.message,
       stack: process.env.NODE_ENV === "production" ? null : err.stack,
     });
   };
@@ -81,8 +81,8 @@ export  const notFound = (req, res, next) => {
 
      
 export const blockUser = user => {
-    if (user?.isBlocked) {
-      throw new Error(`Access Denied ${user?.firstName} is blocked`);
+    if (user.isBlocked) {
+      throw new Error(`Access Denied ${user.firstName} is blocked`);
     }
   };
   
@@ -101,7 +101,7 @@ export const cloudinaryUploadImg = async fileToUpload => {
       resource_type: "auto",
     });
     return {
-      url: data?.secure_url,
+      url: data.secure_url,
     };
   } catch (error) {
     return error;

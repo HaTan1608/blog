@@ -65,7 +65,7 @@ expressAsyncHandler(async (req, res) => {
     //Find the login user
     const { _id } = req.user;
     //block user
-    blockUser(req?.user);
+    blockUser(req.user);
     //1. Get the oath to img
     const localPath = `public/images/profile/${req.file.filename}`;
     //2.Upload to cloudinary
@@ -123,7 +123,7 @@ expressAsyncHandler(async (req, res) => {
   
       await sgMail.send(msg);
       res.json({
-        msg: `A verification message is successfully sent to ${user?.email}. Reset now within 10 minutes, ${resetURL}`,
+        msg: `A verification message is successfully sent to ${user.email}. Reset now within 10 minutes, ${resetURL}`,
       });
     } catch (error) {
       res.json(error);
@@ -182,7 +182,7 @@ expressAsyncHandler(async (req, res) => {
     const targetUser = await User.findById(followId);
   
     const alreadyFollowing = targetUser.followers.find(
-      user => user?.toString() === loginUserId.toString()
+      user => user.toString() === loginUserId.toString()
     );
   
     if (alreadyFollowing) throw new Error("You have already followed this user");
@@ -218,7 +218,7 @@ expressAsyncHandler(async (req, res) => {
   
     try {
       //Generate token
-      const verificationToken = await user?.createAccountVerificationToken();
+      const verificationToken = await user.createAccountVerificationToken();
       //save the user
       await user.save();
       console.log(verificationToken);
