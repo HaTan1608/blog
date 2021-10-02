@@ -59,34 +59,21 @@ expressAsyncHandler(async (req, res) => {
 
   userRouter.get("/logins",
     expressAsyncHandler(async (req, res) => {
-    const userFound = await User.findOne();
-    //check if blocked
-    if (userFound){
-        
-            res({
-                _id: userFound._id
-        })}else{
-            res.status(401);
-            throw new Error("Invalid Login Credentials");
+        const user = await User.findOne({ email:'tandev95@gmail.com' });
+        if (user) {
+            if (bcrypt.compareSync('123123', user.password)) {
+                res.send({
+                    firstName: userFound.firstName,
+                    lastName: userFound.lastName,
+                   
+                });
+                return;
+            }
         }
+        res.status(401).send({ message: 'Invalid email or password' });
     }
-      
-
   ));
 
-  userRouter.get("/loginss",
-  expressAsyncHandler(async (req, res) => {
-  const userFound = await User.find();
-  //check if blocked
-  if (userFound){
-      
-    res.send({
-        firstName: userFound.firstName
-    });
-  }
-    
-  }
-));
 
 
   userRouter.put(
