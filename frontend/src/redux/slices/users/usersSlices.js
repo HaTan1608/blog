@@ -36,12 +36,17 @@ export const registerUserAction = createAsyncThunk(
 export const loginUserAction = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue, getState, dispatch }) => {
-   
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
     try {
       //make http call
       const { data } = await axios.post(
         `/api/users/login`,
-        userData
+        userData,
+        config
       );
       //save user into local storage
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -54,7 +59,6 @@ export const loginUserAction = createAsyncThunk(
     }
   }
 );
-
 
 // Profile
 export const userProfileAction = createAsyncThunk(
@@ -230,8 +234,15 @@ export const fetchUsersAction = createAsyncThunk(
   "user/list",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
+    const user = getState()?.users;
+    const { userAuth } = user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    };
     try {
-      const { data } = await axios.get(`/api/users`);
+      const { data } = await axios.get(`/api/users`, config);
       return data;
     } catch (error) {
       if (!error?.response) throw error;

@@ -31,14 +31,10 @@ expressAsyncHandler(async (req, res) => {
   }));
 
 
-  userRouter.post("/login",
+  userRouter.get("/login",
     expressAsyncHandler(async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    //check if user exists
-    console.log(req.body.email);
-    
-    console.log(req.body.password);
     const userFound = await User.findOne({ email });
     //check if blocked
     if (userFound){
