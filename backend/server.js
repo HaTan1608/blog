@@ -1,17 +1,20 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js';
-import productRouter from './routers/productRouter.js';
-import orderRouter from './routers/orderRouter.js';
+import categoryRouter from './routers/categoryRouter.js';
+import commentRouter from './routers/commentRouter.js';
+import emailMsgRouter from './routers/emailMsgRouter.js';
+import postRouter from './routers/postRouter.js';
 import path from 'path';
 import uploadRouter from './routers/uploadRouter.js';
 import dotenv from 'dotenv';
+import { errorHandler, notFound } from "./utils.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-var url = "mongodb+srv://amazona:8365598a@cluster0.fdtaq.mongodb.net/fshop?authSource=admin&replicaSet=atlas-55bbid-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
+var url = "mongodb+srv://amazona:8365598a@cluster0.fdtaq.mongodb.net/blogapp?authSource=admin&replicaSet=atlas-55bbid-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
 mongoose.connect(url, function (err) {
   if (err) throw err;
   console.log("Database created!");
@@ -19,12 +22,10 @@ mongoose.connect(url, function (err) {
 
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
-app.use('/api/products', productRouter)
-app.use('/api/orders', orderRouter);
-app.get('/api/config/paypal', (req, res) => {
-  res.send(process.env.PAYPAL_CILENT_ID || 'sb')
-})
-
+app.use('/api/category', categoryRouter)
+app.use('/api/comments', commentRouter);
+app.use('/api/email', emailMsgRouter);
+app.use('/api/posts', postRouter);
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(express.static(path.join(__dirname, '/frontend/build')));
