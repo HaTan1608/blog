@@ -32,33 +32,17 @@ expressAsyncHandler(async (req, res) => {
 
 
   userRouter.get("/login",
+    
     expressAsyncHandler(async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    const userFound = await User.findOne({ email });
-    //check if blocked
-    if (userFound){
-        if(userFound.isBlocked){
-            throw new Error("Access Denied You have been blocked");
-        }
-        if(await userFound.isPasswordMatched(password)){
-            res.json({
-                _id: userFound._id,
-                firstName: userFound.firstName,
-                lastName: userFound.lastName,
-                email: userFound.email,
-                profilePhoto: userFound.profilePhoto,
-                isAdmin: userFound.isAdmin,
-                token: generateToken(userFound._id),
-                isVerified: userFound.isAccountVerified,
-        })}else{
-            res.status(401);
-            throw new Error("Invalid Login Credentials");
-        }
-    }
+            const posts = await User.find()
+      
+            res.json(posts);
+          
+      
+      })
       
 
-  }));
+  );
 
 
   userRouter.put(

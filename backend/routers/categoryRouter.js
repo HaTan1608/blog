@@ -68,7 +68,7 @@ expressAsyncHandler(async (req, res) => {
   }));
 
 
-  categoryRouter.delete("/:id", authMiddleware,
+categoryRouter.delete("/:id", authMiddleware,
 expressAsyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
