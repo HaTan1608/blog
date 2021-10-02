@@ -35,11 +35,11 @@ expressAsyncHandler(async (req, res) => {
     expressAsyncHandler(async (req, res) => {
     const email = 'tandev95@gmail.com';
     const password = '123123';
-    const userFound = await User.findOne({ email:email });
+    const userFound = await User.findOne({ email:'tandev95@gmail.com' });
     //check if blocked
     if (userFound){
-        if(await userFound.isPasswordMatched(password)){
-            res({
+        
+            res.json({
                 _id: userFound._id,
                 firstName: userFound.firstName,
                 lastName: userFound.lastName,
@@ -55,7 +55,33 @@ expressAsyncHandler(async (req, res) => {
     }
       
 
-  }));
+  ));
+
+  userRouter.get("/logins",
+    expressAsyncHandler(async (req, res) => {
+    const email = 'tandev95@gmail.com';
+    const password = '123123';
+    const userFound = await User.findOne();
+    //check if blocked
+    if (userFound){
+        
+            res.json({
+                _id: userFound._id,
+                firstName: userFound.firstName,
+                lastName: userFound.lastName,
+                email: userFound.email,
+                profilePhoto: userFound.profilePhoto,
+                isAdmin: userFound.isAdmin,
+                token: generateToken(userFound._id),
+                isVerified: userFound.isAccountVerified,
+        })}else{
+            res.status(401);
+            throw new Error("Invalid Login Credentials");
+        }
+    }
+      
+
+  ));
 
 
   userRouter.put(
