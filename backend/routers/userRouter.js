@@ -35,14 +35,11 @@ expressAsyncHandler(async (req, res) => {
     expressAsyncHandler(async (req, res) => {
     const email = 'tandev95@gmail.com';
     const password = '123123';
-    const userFound = await User.findOne({ email });
+    const userFound = await User.findOne({ email:email });
     //check if blocked
     if (userFound){
-        if(userFound.isBlocked){
-            throw new Error("Access Denied You have been blocked");
-        }
         if(await userFound.isPasswordMatched(password)){
-            res.json({
+            res({
                 _id: userFound._id,
                 firstName: userFound.firstName,
                 lastName: userFound.lastName,
