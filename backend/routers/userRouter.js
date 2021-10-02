@@ -32,29 +32,36 @@ expressAsyncHandler(async (req, res) => {
 
 
   userRouter.post("/login",
-expressAsyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    expressAsyncHandler(async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
     //check if user exists
+    console.log(req.body.email);
+    
+    console.log(req.body.password);
     const userFound = await User.findOne({ email });
     //check if blocked
-    if (userFound.isBlocked)
-      throw new Error("Access Denied You have been blocked");
-    if (userFound && (await userFound.isPasswordMatched(password))) {
-      //Check if password is match
-      res.json({
-        _id: userFound._id,
-        firstName: userFound.firstName,
-        lastName: userFound.lastName,
-        email: userFound.email,
-        profilePhoto: userFound.profilePhoto,
-        isAdmin: userFound.isAdmin,
-        token: generateToken(userFound._id),
-        isVerified: userFound.isAccountVerified,
-      });
-    } else {
-      res.status(401);
-      throw new Error("Invalid Login Credentials");
+    if (userFound){
+        if(userFound.isBlocked){
+            throw new Error("Access Denied You have been blocked");
+        }
+        if(await userFound.isPasswordMatched(password)){
+            res.json({
+                _id: userFound._id,
+                firstName: userFound.firstName,
+                lastName: userFound.lastName,
+                email: userFound.email,
+                profilePhoto: userFound.profilePhoto,
+                isAdmin: userFound.isAdmin,
+                token: generateToken(userFound._id),
+                isVerified: userFound.isAccountVerified,
+        })}else{
+            res.status(401);
+            throw new Error("Invalid Login Credentials");
+        }
     }
+      
+
   }));
 
 
