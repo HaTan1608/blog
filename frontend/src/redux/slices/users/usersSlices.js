@@ -55,6 +55,7 @@ export const loginUserAction = createAsyncThunk(
   }
 );
 
+
 // Profile
 export const userProfileAction = createAsyncThunk(
   "user/profile",
@@ -229,15 +230,8 @@ export const fetchUsersAction = createAsyncThunk(
   "user/list",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
-    const { userAuth } = user;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userAuth?.token}`,
-      },
-    };
     try {
-      const { data } = await axios.get(`/api/users`, config);
+      const { data } = await axios.get(`/api/users`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
